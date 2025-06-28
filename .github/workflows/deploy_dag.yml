@@ -1,0 +1,16 @@
+name: Deploy DAG to Airflow
+
+on:
+  push:
+    branches: [main]  # or your branch name
+
+jobs:
+  deploy:
+    runs-on: self-hosted  # Your LXC GitHub Actions runner
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Copy DAG to Airflow container
+        run: |
+          scp -i ~/.ssh/airflow_key dags/sample_dag.py root@192.168.1.39:/root/airflow/dags/
